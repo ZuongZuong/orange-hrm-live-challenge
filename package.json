@@ -1,0 +1,33 @@
+{
+  "name": "orange-hrm-live-challenge",
+  "version": "1.0.0",
+  "description": "This is the repository to run the test for Orange HRM Live Challenge with playwright tyepscript and page object model",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env TEST_ENV=test playwright test",
+    "test:search:chrome": "cross-env TEST_ENV=test playwright test tests/search/search-menu.spec.ts --project=chromium",
+    "test:search:firefox": "cross-env TEST_ENV=test playwright test tests/search/search-menu.spec.ts --project=firefox",
+    "test:search:edge": "cross-env TEST_ENV=test playwright test tests/search/search-menu.spec.ts --project=edge",
+    "test:search:all": "cross-env TEST_ENV=test playwright test tests/search/search-menu.spec.ts",
+    "test:login:chrome": "cross-env TEST_ENV=test playwright test tests/login/login.spec.ts --project=chromium",
+    "test:login:firefox": "cross-env TEST_ENV=test playwright test tests/login/login.spec.ts --project=firefox",
+    "test:login:edge": "cross-env TEST_ENV=test playwright test tests/login/login.spec.ts --project=edge",
+    "test:login:all": "cross-env TEST_ENV=test playwright test tests/login/login.spec.ts",
+    "test:debug": "cross-env TEST_ENV=test playwright test --debug",
+    "allure:open": "allure open ./allure-report",
+    "allure:serve": "allure serve ./allure-results",
+    "allure:generate": "allure generate ./allure-results --clean -o ./allure-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.53.1",
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^22.15.17",
+    "allure-commandline": "^2.34.0",
+    "allure-playwright": "^3.2.2",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0"
+  }
+}
