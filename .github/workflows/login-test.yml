@@ -5,8 +5,8 @@ on:
         branches: [ main ]
     pull_request:
         branches: [ main ]
-    schedule:
-      - cron: '0 0 * * *'  # Runs every day at midnight UTC
+    # schedule:
+    #   - cron: '0 0 * * *'  # Runs every day at midnight UTC
 jobs:
   login-test:
     runs-on: ubuntu-latest
@@ -21,13 +21,13 @@ jobs:
         env: [test]
 
     steps:
-      - name: Notify Slack - Tests Started 🚀
-        if: always()
-        uses: slackapi/slack-github-action@v1.22.0
-        with:
-          payload: '{"text": "Playwright login tests started for ${{ matrix.browser }} on ${{ matrix.env }} environment. 🚀"}'
-        env:
-          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+      # - name: Notify Slack - Tests Started 🚀
+      #   if: always()
+      #   uses: slackapi/slack-github-action@v1.22.0
+      #   with:
+      #     payload: '{"text": "Playwright login tests started for ${{ matrix.browser }} on ${{ matrix.env }} environment. 🚀"}'
+      #   env:
+      #     SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -63,19 +63,19 @@ jobs:
           path: ./allure-report.zip
           retention-days: 2
 
-      - name: Notify Slack - Tests Completed ✅
-        if: always()
-        uses: slackapi/slack-github-action@v1.22.0
-        with:
-          payload: '{"text": "Playwright login tests completed for ${{ matrix.browser }} on ${{ matrix.env }} environment. ✅"}'
-        env:
-          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+      # - name: Notify Slack - Tests Completed ✅
+      #   if: always()
+      #   uses: slackapi/slack-github-action@v1.22.0
+      #   with:
+      #     payload: '{"text": "Playwright login tests completed for ${{ matrix.browser }} on ${{ matrix.env }} environment. ✅"}'
+      #   env:
+      #     SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
 
-      - name: Upload Allure report to Slack 📊
-        if: always()
-        uses: slackapi/slack-github-action@v1.22.0
-        with:
-          payload: '{"text": "Allure report for Playwright login tests is ready. Check it out!"}'
-          attachments: '[{"fallback": "Allure Report", "title": "Allure Report", "title_link": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}]'
-        env:
-          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+      # - name: Upload Allure report to Slack 📊
+      #   if: always()
+      #   uses: slackapi/slack-github-action@v1.22.0
+      #   with:
+      #     payload: '{"text": "Allure report for Playwright login tests is ready. Check it out!"}'
+      #     attachments: '[{"fallback": "Allure Report", "title": "Allure Report", "title_link": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}]'
+      #   env:
+      #     SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
