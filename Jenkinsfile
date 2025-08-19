@@ -26,19 +26,16 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'npx playwright test --reporter=line'
+                bat "npx playwright test --grep ${params.TEST_TAG} --reporter=line,html,allure-playwright"
             }
         }
 
-        stage('Publish Report') {
+        stage('Publish Allure Report') {
             steps {
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'playwright-report',
-                    reportFiles: 'index.html',
-                    reportName: 'Playwright Report'
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'allure-results']]
                 ])
             }
         }
@@ -46,13 +43,8 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '**/test-results/**', allowEmptyArchive: true
-        }
-        failure {
-            echo '❌ Tests failed!'
-        }
-        success {
-            echo '✅ Tests passed!'
+            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
         }
     }
 }
