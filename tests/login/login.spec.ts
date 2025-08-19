@@ -103,3 +103,9 @@ test('[UI/UX][Positive Case] Ensure the Login component should showing correct a
         await loginPage.isCopyRightTextVisible();
     });
 });
+
+test('[Functional][Positive Case] Test @login', async () => {
+    await test.step('Login with valid credentials', async () => {
+        await loginPage.login(accountData.validUser.username, accountData.validUser.password);
+    });
+});
