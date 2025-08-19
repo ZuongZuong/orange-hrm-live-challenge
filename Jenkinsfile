@@ -38,6 +38,14 @@ pipeline {
             }
         }
 
+        stage('Clean Old Allure Report') {
+            steps {
+                bat 'rmdir /s /q allure-report || echo "No previous report"'
+                bat 'rmdir /s /q allure-results || echo "No previous results"'
+             }
+        }
+
+
         stage('Publish Allure Report') {
             steps {
                 allure([
