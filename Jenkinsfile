@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS-20'
+        nodejs 'NodeJS-20'   // 👈 must match your NodeJS config in Jenkins
     }
 
     stages {
@@ -14,39 +14,48 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                sh 'npm ci'   // clean install (faster + reliable)
+            }
+        }
+
+        stage('Install Browsers') {
+            steps {
                 sh 'npx playwright install --with-deps'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'npx cross-env TEST_ENV=test npm run test'
+                // Run playwright tests with reporter
+                sh 'npx playwright test --reporter=line'
             }
         }
 
-        stage('Generate Reports') {
+        stage('Publish Report') {
             steps {
-                sh 'npx allure-commandline generate ./allure-results --clean -o ./allure-report'
+                // Generate HTML report and archive it
+                sh 'npx playwright show-report --reporter=html'
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'playwright-report',
+                    reportFiles: 'index.html',
+                    reportName: 'Playwright Report'
+                ])
             }
         }
     }
 
     post {
         always {
-            publishHTML([
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'test-reports/html',
-                reportFiles: 'index.html',
-                reportName: 'Playwright Report'
-            ])
-            
-            allure([
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']]
-            ])
+            archiveArtifacts artifacts: '**/test-results/**', allowEmptyArchive: true
+        }
+        failure {
+            echo '❌ Tests failed!'
+        }
+        success {
+            echo '✅ Tests passed!'
         }
     }
 }
