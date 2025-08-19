@@ -43,6 +43,7 @@ pipeline {
                 allure([
                     includeProperties: false,
                     jdk: 'JDK-17',
+                    reportBuildPolicy: 'ALWAYS',
                     results: [[path: 'allure-results']]
                 ])
             }
