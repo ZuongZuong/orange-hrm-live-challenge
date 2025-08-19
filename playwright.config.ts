@@ -46,7 +46,7 @@ export default defineConfig({
     video: "retain-on-failure",
   },
 
-  globalSetup: require.resolve("./helper/global-setup.ts"),
+  globalSetup: require.resolve("./helper/GlobalSetup.ts"),
   /* Configure projects for major browsers */
   projects: [
     {
