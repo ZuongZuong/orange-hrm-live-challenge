@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS-20'
+        nodejs 'NodeJS-20',
+        jdk 'JDK-17'
     }
 
     stages {
@@ -29,7 +30,7 @@ pipeline {
                 script {
                     if (params.TEST_TAG?.trim()) {
                         echo "Running only tests with tag: ${params.TEST_TAG}"
-                        bat "npx playwright test --grep @${params.TEST_TAG} --reporter=line,html,allure-playwright"
+                        bat "npx playwright test --grep \"@${params.TEST_TAG}\" --reporter=line,html,allure-playwright"
                     } else {
                         echo "No tag provided. Running ALL tests."
                         bat "npx playwright test --reporter=line,html,allure-playwright"
