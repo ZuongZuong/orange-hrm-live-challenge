@@ -20,7 +20,7 @@ pipeline {
 
         stage('Install Browsers') {
             steps {
-                bat 'npx playwright install ${params.BROWSER}'
+                bat "npx playwright install ${params.BROWSER}"
             }
         }
 
