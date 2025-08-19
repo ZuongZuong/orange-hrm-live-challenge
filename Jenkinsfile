@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         nodejs 'NodeJS-20',
-        jdk 'JDK-17'
     }
 
     stages {
@@ -43,7 +42,7 @@ pipeline {
             steps {
                 allure([
                     includeProperties: false,
-                    jdk: '',
+                    jdk: 'JDK-17',
                     results: [[path: 'allure-results']]
                 ])
             }
