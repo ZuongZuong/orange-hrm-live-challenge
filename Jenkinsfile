@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS-20'   // 👈 must match your NodeJS config in Jenkins
+        nodejs 'NodeJS-20'
     }
 
     stages {
@@ -14,27 +14,24 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'   // clean install (faster + reliable)
+                bat 'npm ci'
             }
         }
 
         stage('Install Browsers') {
             steps {
-                sh 'npx playwright install --with-deps'
+                bat 'npx playwright install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Run playwright tests with reporter
-                sh 'npx playwright test --reporter=line'
+                bat 'npx playwright test --reporter=line'
             }
         }
 
         stage('Publish Report') {
             steps {
-                // Generate HTML report and archive it
-                sh 'npx playwright show-report --reporter=html'
                 publishHTML(target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
