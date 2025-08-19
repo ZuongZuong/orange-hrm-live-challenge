@@ -51,6 +51,11 @@ pipeline {
 
     post {
         always {
+            bat '''
+            if exist allure-report rmdir /s /q allure-report
+            mkdir allure-report
+            '''
+            bat 'allure generate allure-results -o allure-report --clean'
             archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
             archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
         }
